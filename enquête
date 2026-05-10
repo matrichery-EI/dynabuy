@@ -1,1 +1,1337 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAT Services — Diagnostic Commercial Gratuit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #0F3D2E;
+    --green-mid: #1a5c44;
+    --green-light: #2a7a5c;
+    --gold: #C6A75E;
+    --gold-light: #d4b97a;
+    --ivory: #F5F0E8;
+    --ivory-dark: #EDE7D8;
+    --charcoal: #2C2C2A;
+    --muted: #7a7a72;
+    --border: rgba(15,61,46,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--ivory);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green);
+    color: var(--ivory);
+    padding: 4rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(198,167,94,0.12);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: 40px; bottom: -80px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(198,167,94,0.08);
+  }
+
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ivory);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(245,240,232,0.6);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    max-width: 520px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-stat {
+    border-left: 1px solid rgba(198,167,94,0.3);
+    padding-left: 1rem;
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--gold);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .hero-stat span {
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── NAV ── */
+  .tab-nav {
+    background: var(--green);
+    display: flex;
+    max-width: 100%;
+    border-top: 1px solid rgba(198,167,94,0.15);
+  }
+
+  .tab-nav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+    padding: 0 2rem;
+  }
+
+  .tab-btn {
+    padding: 14px 28px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    background: none;
+    border: none;
+    color: rgba(245,240,232,0.4);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.25s;
+  }
+
+  .tab-btn:hover { color: rgba(245,240,232,0.7); }
+  .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
+  /* ── MAIN ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── PROGRESS ── */
+  .progress-track {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 1px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── DIAGNOSTIC STEPS ── */
+  .diag-step { display: none; animation: fadeIn 0.3s ease; }
+  .diag-step.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .diag-q {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+    font-weight: 400;
+    color: var(--green);
+    margin-bottom: 1.75rem;
+    line-height: 1.3;
+  }
+
+  .diag-options { display: flex; flex-direction: column; gap: 10px; }
+
+  .diag-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    text-align: left;
+    width: 100%;
+  }
+
+  .diag-option:hover { border-color: var(--green); background: rgba(15,61,46,0.02); }
+  .diag-option.selected { border-color: var(--green); background: rgba(15,61,46,0.04); box-shadow: inset 3px 0 0 var(--gold); }
+
+  .opt-icon {
+    width: 40px; height: 40px;
+    background: var(--ivory);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .opt-text { flex: 1; }
+  .opt-title { font-weight: 500; font-size: 14px; color: var(--charcoal); }
+  .opt-sub { font-size: 12px; color: var(--muted); margin-top: 3px; font-weight: 300; }
+
+  .diag-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── RGPD ── */
+  .rgpd-notice {
+    background: rgba(15,61,46,0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .rgpd-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .rgpd-text { font-size: 11px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+  .rgpd-text a { color: var(--green); text-decoration: underline; }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    background: var(--green);
+    color: var(--ivory);
+    border: none;
+    padding: 12px 28px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--green-mid); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .btn-ghost {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 12px 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Barlow', sans-serif;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+  /* ── RESULT ── */
+  .result-hero {
+    background: var(--green);
+    color: var(--ivory);
+    border-radius: 8px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-hero::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(198,167,94,0.15);
+  }
+  .result-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    color: var(--gold);
+    font-weight: 300;
+    line-height: 1;
+    position: relative;
+  }
+  .result-score-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    margin-bottom: 6px;
+  }
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 12px 0 8px;
+    position: relative;
+  }
+  .result-detail {
+    font-size: 14px;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.6;
+    font-weight: 300;
+    max-width: 520px;
+    position: relative;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .result-kpi {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    border-left: 3px solid var(--gold);
+  }
+  .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 6px; }
+  .kpi-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    color: var(--green);
+    font-weight: 400;
+    line-height: 1;
+  }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300; }
+
+  /* ── CTA BLOCK ── */
+  .cta-block {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .cta-text { flex: 1; min-width: 220px; }
+  .cta-text strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--green);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cta-contact { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
+  .cta-contact a { color: var(--green); text-decoration: none; font-weight: 500; }
+  .cta-contact a:hover { text-decoration: underline; }
+  .cta-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--gold);
+    font-style: italic;
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  /* ── CALCULATEUR ── */
+  .calc-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--green);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .calc-section-sub { font-size: 13px; color: var(--muted); font-weight: 300; margin-bottom: 2rem; }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  select, input[type="range"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    background: white;
+    color: var(--charcoal);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  select:hover, select:focus { border-color: var(--green); outline: none; }
+
+  .calc-results { display: none; }
+  .calc-results.visible { display: block; animation: fadeIn 0.3s ease; }
+
+  .versus-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .vs-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .vs-card.featured {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--ivory);
+  }
+  .vs-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .vs-card.featured .vs-lbl { color: rgba(245,240,232,0.45); }
+  .vs-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--charcoal);
+    font-weight: 300;
+  }
+  .vs-card.featured .vs-amount { color: var(--gold); }
+  .vs-note { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300; }
+  .vs-card.featured .vs-note { color: rgba(245,240,232,0.5); }
+  .vs-sep { text-align: center; font-size: 13px; color: var(--muted); font-weight: 300; letter-spacing: 1px; }
+
+  .saving-bar {
+    background: var(--green);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--ivory);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .saving-bar .left p { font-size: 11px; color: rgba(245,240,232,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .saving-bar .left strong { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; }
+  .saving-pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    color: var(--gold);
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
+  .detail-table tr { border-bottom: 1px solid rgba(15,61,46,0.06); }
+  .detail-table td { padding: 10px 0; font-size: 13px; font-weight: 300; }
+  .detail-table td:last-child { text-align: right; font-weight: 500; color: var(--charcoal); }
+  .detail-table td:first-child { color: var(--muted); }
+  .detail-table .total-row td { border-top: 2px solid var(--border); padding-top: 14px; font-size: 15px; font-weight: 600; }
+
+  .offer-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .offer-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    background: white;
+    transition: border-color 0.2s;
+  }
+  .offer-card:hover { border-color: var(--gold); }
+  .offer-card.star { border-color: var(--gold); }
+  .offer-badge { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .offer-name { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-weight: 300; }
+  .offer-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--green);
+    font-weight: 400;
+  }
+  .offer-price small { font-size: 12px; color: var(--muted); font-family: 'Barlow', sans-serif; font-weight: 300; }
+  .offer-days { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 300; }
+
+  /* ── CONTACT FOOTER ── */
+  .contact-section {
+    background: var(--green);
+    color: var(--ivory);
+    padding: 4rem 2rem 3rem;
+    margin-top: 0;
+  }
+  .contact-inner { max-width: 860px; margin: 0 auto; }
+  .contact-eyebrow {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .contact-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    opacity: 0.85;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(198,167,94,0.2);
+    margin-bottom: 2.5rem;
+  }
+  .contact-item {}
+  .contact-item-label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin-bottom: 6px;
+  }
+  .contact-item-val {
+    font-size: 16px;
+    color: var(--ivory);
+    font-weight: 400;
+  }
+  .contact-item-val a {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 300;
+  }
+  .contact-item-val a:hover { text-decoration: underline; }
+  .contact-zones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .zone-badge {
+    background: rgba(198,167,94,0.12);
+    border: 1px solid rgba(198,167,94,0.25);
+    color: var(--gold);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+  .contact-dynabuy {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(198,167,94,0.08);
+    border: 1px solid rgba(198,167,94,0.2);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.5px;
+    font-weight: 300;
+  }
+  .contact-dynabuy strong { color: var(--gold); font-weight: 500; }
+
+  .site-footer {
+    background: #071f17;
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+  .site-footer p {
+    font-size: 11px;
+    color: rgba(245,240,232,0.2);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .site-footer a { color: rgba(198,167,94,0.4); text-decoration: none; }
+
+  .reset-btn {
+    background: none;
+    border: none;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: 'Barlow', sans-serif;
+    margin-top: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── CTA CALCULATEUR (encart bas diagnostic) ── */
+  .diag-calc-cta {
+    background: linear-gradient(135deg, var(--ivory-dark) 0%, white 100%);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .diag-calc-cta-icon { font-size: 2rem; flex-shrink: 0; }
+  .diag-calc-cta-text { flex: 1; min-width: 200px; }
+  .diag-calc-cta-text strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: var(--green);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .diag-calc-cta-text p { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+  /* ── FORMULAIRE CONTACT ── */
+  .contact-form-section { padding: 2.5rem 0; }
+  .contact-form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    color: var(--green);
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .contact-form-sub { font-size: 13px; color: var(--muted); font-weight: 300; margin-bottom: 2rem; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .form-label .req { color: #c0392b; margin-left: 2px; }
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    background: white;
+    color: var(--charcoal);
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--green); outline: none; box-shadow: 0 0 0 3px rgba(15,61,46,0.06); }
+  .form-input.error, .form-textarea.error { border-color: #c0392b; }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-success {
+    background: rgba(15,61,46,0.06);
+    border: 1px solid rgba(15,61,46,0.2);
+    border-left: 4px solid var(--green);
+    border-radius: 6px;
+    padding: 1.5rem;
+    text-align: center;
+    display: none;
+  }
+  .form-success .success-icon { font-size: 2rem; margin-bottom: 8px; }
+  .form-success strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--green);
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .form-success p { font-size: 13px; color: var(--muted); font-weight: 300; }
+  .form-error-msg { font-size: 11px; color: #c0392b; margin-top: 4px; font-weight: 400; }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .diag-calc-cta { flex-direction: column; text-align: center; }
+  }
+    .calc-grid, .result-grid, .versus-row, .offer-row { grid-template-columns: 1fr; }
+    .versus-row { display: flex; flex-direction: column; }
+    .vs-sep { display: none; }
+    .cta-block { flex-direction: column; }
+    .hero-stats { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">MAT Services · Direction Commerciale Externalisée</div>
+    <h1>Avez-vous un <em>angle mort</em> commercial dans votre PME ?</h1>
+    <p class="hero-sub">Diagnostic gratuit · 6 questions · 2 minutes · Résultat personnalisé</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>87%</strong><span>des PME ont un poste clé non pourvu</span></div>
+      <div class="hero-stat"><strong>2×</strong><span>moins cher qu'un salarié à temps plein</span></div>
+      <div class="hero-stat"><strong>15j</strong><span>pour démarrer une mission</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TABS -->
+<nav class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" onclick="switchTab('diag', this)">Diagnostic</button>
+    <button class="tab-btn" onclick="switchTab('calc', this)">Calculateur</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ══ DIAGNOSTIC ══ -->
+  <div id="panel-diag" class="tab-panel active">
+    <div class="progress-track"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+
+    <!-- STEP 1 -->
+    <div class="diag-step active" id="step1">
+      <div class="step-label">Question 1 / 6</div>
+      <h2 class="diag-q">Qui pilote actuellement votre activité commerciale ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,1,2)">
+          <div class="opt-icon">👤</div>
+          <div class="opt-text"><div class="opt-title">Moi, le dirigeant</div><div class="opt-sub">Je gère aussi le commercial en plus de tout le reste</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,1,1)">
+          <div class="opt-icon">👥</div>
+          <div class="opt-text"><div class="opt-title">Un ou plusieurs commerciaux</div><div class="opt-sub">Sans direction commerciale structurée</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,1,0)">
+          <div class="opt-icon">💼</div>
+          <div class="opt-text"><div class="opt-title">Un directeur commercial salarié</div><div class="opt-sub">Poste dédié en interne</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,1,2)">
+          <div class="opt-icon">🎲</div>
+          <div class="opt-text"><div class="opt-title">Personne vraiment</div><div class="opt-sub">Ça se fait au gré des opportunités</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <span></span>
+        <button class="btn-primary" onclick="goTo(2)" id="btn1" disabled>Suivant →</button>
+      </div>
+      <div class="rgpd-notice">
+        <span class="rgpd-icon">🔒</span>
+        <p class="rgpd-text">Vos réponses sont utilisées uniquement pour personnaliser votre diagnostic. Aucune donnée personnelle n'est collectée à cette étape. Conformément au <strong>RGPD (Règlement UE 2016/679)</strong>, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour toute demande : <a href="mailto:ma.trichery@gmail.com">ma.trichery@gmail.com</a></p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="diag-step" id="step2">
+      <div class="step-label">Question 2 / 6</div>
+      <h2 class="diag-q">Quel est votre défi commercial le plus urgent ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,2,2)">
+          <div class="opt-icon">🎯</div>
+          <div class="opt-text"><div class="opt-title">Trouver de nouveaux clients</div><div class="opt-sub">Prospection, développement, conquête</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,2,1)">
+          <div class="opt-icon">🔄</div>
+          <div class="opt-text"><div class="opt-title">Fidéliser et développer l'existant</div><div class="opt-sub">Upsell, récurrence, rétention</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,2,2)">
+          <div class="opt-icon">📊</div>
+          <div class="opt-text"><div class="opt-title">Structurer ma force de vente</div><div class="opt-sub">Process, pilotage, montée en compétences</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,2,2)">
+          <div class="opt-icon">🗺️</div>
+          <div class="opt-text"><div class="opt-title">Définir une stratégie commerciale</div><div class="opt-sub">Cibles, positionnement, offre</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <button class="btn-ghost" onclick="goTo(1)">← Retour</button>
+        <button class="btn-primary" onclick="goTo(3)" id="btn2" disabled>Suivant →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="diag-step" id="step3">
+      <div class="step-label">Question 3 / 6</div>
+      <h2 class="diag-q">Où en est votre entreprise aujourd'hui ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,3,1)">
+          <div class="opt-icon">🚀</div>
+          <div class="opt-text"><div class="opt-title">En croissance, mais ça bloque quelque part</div><div class="opt-sub">CA monte mais la marge ou le rythme patine</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,3,2)">
+          <div class="opt-icon">➖</div>
+          <div class="opt-text"><div class="opt-title">Stable, peut mieux faire</div><div class="opt-sub">On tourne, mais pas de dynamique forte</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,3,2)">
+          <div class="opt-icon">📉</div>
+          <div class="opt-text"><div class="opt-title">En perte de vitesse</div><div class="opt-sub">Le pipe se tarit, les signaux s'aggravent</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,3,1)">
+          <div class="opt-icon">🏗️</div>
+          <div class="opt-text"><div class="opt-title">En transition ou restructuration</div><div class="opt-sub">Changement de cap, nouveau marché, pivot</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <button class="btn-ghost" onclick="goTo(2)">← Retour</button>
+        <button class="btn-primary" onclick="goTo(4)" id="btn3" disabled>Suivant →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="diag-step" id="step4">
+      <div class="step-label">Question 4 / 6</div>
+      <h2 class="diag-q">Disposez-vous d'un tableau de bord commercial suivi régulièrement ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,4,0)">
+          <div class="opt-icon">📈</div>
+          <div class="opt-text"><div class="opt-title">Oui, avec des KPIs clairs et un suivi hebdomadaire</div><div class="opt-sub">Pipeline, taux de conversion, CA prévisionnel…</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,4,1)">
+          <div class="opt-icon">📋</div>
+          <div class="opt-text"><div class="opt-title">Quelques indicateurs, mais c'est approximatif</div><div class="opt-sub">Je sais à peu près où j'en suis</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,4,2)">
+          <div class="opt-icon">🌫️</div>
+          <div class="opt-text"><div class="opt-title">Non, je pilote surtout à l'instinct</div><div class="opt-sub">Pas de reporting structuré</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,4,2)">
+          <div class="opt-icon">⏳</div>
+          <div class="opt-text"><div class="opt-title">On y travaille, mais ce n'est pas encore en place</div><div class="opt-sub">Le sujet est identifié, pas encore adressé</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <button class="btn-ghost" onclick="goTo(3)">← Retour</button>
+        <button class="btn-primary" onclick="goTo(5)" id="btn4" disabled>Suivant →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="diag-step" id="step5">
+      <div class="step-label">Question 5 / 6</div>
+      <h2 class="diag-q">Combien de temps consacrez-vous personnellement au développement commercial chaque semaine ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,5,0)">
+          <div class="opt-icon">⚡</div>
+          <div class="opt-text"><div class="opt-title">Moins de 2 heures</div><div class="opt-sub">Le quotidien de l'entreprise prend tout mon temps</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,5,2)">
+          <div class="opt-icon">🕐</div>
+          <div class="opt-text"><div class="opt-title">Entre 2 et 5 heures</div><div class="opt-sub">Je fais ce que je peux, entre deux urgences</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,5,2)">
+          <div class="opt-icon">💪</div>
+          <div class="opt-text"><div class="opt-title">Plus de 5 heures</div><div class="opt-sub">Je suis très impliqué mais au détriment du reste</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,5,1)">
+          <div class="opt-icon">🎯</div>
+          <div class="opt-text"><div class="opt-title">C'est structuré : un dédié s'en charge</div><div class="opt-sub">Un collaborateur ou prestataire pilote ce sujet</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <button class="btn-ghost" onclick="goTo(4)">← Retour</button>
+        <button class="btn-primary" onclick="goTo(6)" id="btn5" disabled>Suivant →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="diag-step" id="step6">
+      <div class="step-label">Question 6 / 6</div>
+      <h2 class="diag-q">Quel est le profil de votre entreprise ?</h2>
+      <div class="diag-options">
+        <button class="diag-option" onclick="pick(this,6,1)">
+          <div class="opt-icon">🏭</div>
+          <div class="opt-text"><div class="opt-title">Industrie / Fabrication</div><div class="opt-sub">Produits, sous-traitance, transformation</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,6,1)">
+          <div class="opt-icon">🏢</div>
+          <div class="opt-text"><div class="opt-title">Services B2B</div><div class="opt-sub">Conseil, prestation, expertise, tech</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,6,1)">
+          <div class="opt-icon">🏗️</div>
+          <div class="opt-text"><div class="opt-title">Construction / Immobilier</div><div class="opt-sub">BTP, promotion, aménagement</div></div>
+        </button>
+        <button class="diag-option" onclick="pick(this,6,2)">
+          <div class="opt-icon">🌍</div>
+          <div class="opt-text"><div class="opt-title">Autre secteur</div><div class="opt-sub">Distribution, agro, transport, santé…</div></div>
+        </button>
+      </div>
+      <div class="diag-nav">
+        <button class="btn-ghost" onclick="goTo(5)">← Retour</button>
+        <button class="btn-primary" onclick="showResult()" id="btn6" disabled>Voir mon diagnostic →</button>
+      </div>
+    </div>
+
+    <!-- RÉSULTAT -->
+    <div class="diag-step" id="step-result">
+      <div class="result-hero">
+        <div class="result-score-label">Score d'angle mort commercial</div>
+        <div class="result-score" id="res-score">—</div>
+        <h2 class="result-title" id="res-title">—</h2>
+        <p class="result-detail" id="res-detail">—</p>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-kpi">
+          <div class="kpi-label">Temps récupérable</div>
+          <div class="kpi-val" id="res-time">—</div>
+          <div class="kpi-sub">heures / semaine pour votre cœur de métier</div>
+        </div>
+        <div class="result-kpi">
+          <div class="kpi-label">Délai de démarrage</div>
+          <div class="kpi-val">15 jours</div>
+          <div class="kpi-sub">mission opérationnelle · 44 · 85 · 56</div>
+        </div>
+        <div class="result-kpi">
+          <div class="kpi-label">Économie vs salarié</div>
+          <div class="kpi-val">≈ 40%</div>
+          <div class="kpi-sub">sur le coût réel chargé annuel</div>
+        </div>
+        <div class="result-kpi">
+          <div class="kpi-label">Engagement</div>
+          <div class="kpi-val">Zéro</div>
+          <div class="kpi-sub">sans CDI, sans préavis, sans charges fixes</div>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <div class="cta-text">
+          <strong>Prenons 30 minutes pour en parler</strong>
+          <p class="cta-contact">
+            Marc-Antoine Trichery<br>
+            <a href="tel:+33670420390">06 70 42 03 90</a> &nbsp;·&nbsp;
+            <a href="mailto:ma.trichery@gmail.com">ma.trichery@gmail.com</a>
+          </p>
+          <p class="cta-tagline">"Je suis le Directeur Commercial que vous n'avez pas encore,<br>mais dont vous avez déjà besoin."</p>
+        </div>
+        <a href="tel:+33670420390" class="btn-primary" style="text-decoration:none; white-space:nowrap;">Appeler maintenant →</a>
+      </div>
+
+      <!-- ENCART CTA CALCULATEUR -->
+      <div class="diag-calc-cta">
+        <div class="diag-calc-cta-icon">🧮</div>
+        <div class="diag-calc-cta-text">
+          <strong>Vous voulez un chiffre concret ?</strong>
+          <p>Découvrez combien vous économiseriez en passant à un DCE externalisé — en moins de 30 secondes.</p>
+        </div>
+        <button class="btn-primary" onclick="switchTabById('calc')" style="white-space:nowrap; flex-shrink:0;">Voir le calculateur →</button>
+      </div>
+
+      <button class="reset-btn" onclick="resetDiag()">Recommencer le diagnostic</button>
+    </div>
+  </div>
+
+  <!-- ══ CALCULATEUR ══ -->
+  <div id="panel-calc" class="tab-panel">
+    <div style="margin-bottom: 2rem;">
+      <h2 class="calc-section-title">Ce que vous coûte réellement un Directeur Commercial salarié</h2>
+      <p class="calc-section-sub">Charges sociales, avantages, onboarding… Le vrai chiffre est souvent une surprise.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div>
+        <label class="field-label">Taille de l'entreprise</label>
+        <select id="c-taille">
+          <option value="tpe">TPE — 1 à 9 salariés</option>
+          <option value="pme" selected>PME — 10 à 49 salariés</option>
+          <option value="eti">ETI — 50 à 249 salariés</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Salaire brut annuel visé</label>
+        <select id="c-salaire">
+          <option value="50000">50 000 €/an</option>
+          <option value="60000" selected>60 000 €/an</option>
+          <option value="70000">70 000 €/an</option>
+          <option value="80000">80 000 €/an</option>
+          <option value="90000">90 000 €/an</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Disponibilité souhaitée</label>
+        <select id="c-dispo">
+          <option value="0.4">2 jours / semaine</option>
+          <option value="0.6" selected>3 jours / semaine</option>
+          <option value="1">Temps plein</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Région</label>
+        <select id="c-region">
+          <option value="1">Pays de la Loire / Bretagne</option>
+          <option value="1.15">Île-de-France (+15%)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="width:100%; padding: 14px; font-size: 13px;" onclick="compute()">Calculer mes économies →</button>
+
+    <div class="calc-results" id="calc-results" style="margin-top: 2rem;">
+      <div class="versus-row">
+        <div class="vs-card">
+          <div class="vs-lbl">Directeur salarié / an</div>
+          <div class="vs-amount" id="cv-sal">—</div>
+          <div class="vs-note">coût réel chargé</div>
+        </div>
+        <div class="vs-sep">VS</div>
+        <div class="vs-card featured">
+          <div class="vs-lbl">MAT Services / an</div>
+          <div class="vs-amount" id="cv-mat">—</div>
+          <div class="vs-note">mission externalisée</div>
+        </div>
+      </div>
+
+      <div class="saving-bar">
+        <div class="left">
+          <p>Économie annuelle estimée</p>
+          <strong id="cv-saving">—</strong>
+        </div>
+        <div class="saving-pct" id="cv-pct">—</div>
+      </div>
+
+      <table class="detail-table">
+        <tr><td>Salaire brut annuel</td><td id="d-brut">—</td></tr>
+        <tr><td>Charges patronales (~45%)</td><td id="d-charges">—</td></tr>
+        <tr><td>Mutuelle + prévoyance</td><td>− 2 400 €</td></tr>
+        <tr><td>Onboarding + formation</td><td>− 3 500 €</td></tr>
+        <tr><td>Véhicule + avantages divers</td><td>− 5 200 €</td></tr>
+        <tr class="total-row"><td><strong>Coût réel total salarié</strong></td><td id="d-total"><strong>—</strong></td></tr>
+      </table>
+
+      <div class="offer-row">
+        <div class="offer-card">
+          <div class="offer-badge">Starter</div>
+          <div class="offer-name">2 jours / semaine</div>
+          <div class="offer-price">1 800 €<small>/mois</small></div>
+          <div class="offer-days">~8 jours / mois</div>
+        </div>
+        <div class="offer-card star">
+          <div class="offer-badge">⭐ Essentiel — Recommandé</div>
+          <div class="offer-name">3 jours / semaine</div>
+          <div class="offer-price">2 700 €<small>/mois</small></div>
+          <div class="offer-days">~12 jours / mois</div>
+        </div>
+        <div class="offer-card">
+          <div class="offer-badge">Premium</div>
+          <div class="offer-name">Temps plein</div>
+          <div class="offer-price">4 200 €<small>/mois</small></div>
+          <div class="offer-days">~20 jours / mois</div>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <div class="cta-text">
+          <strong>Ces chiffres vous parlent ?</strong>
+          <p class="cta-contact">
+            Marc-Antoine Trichery<br>
+            <a href="tel:+33670420390">06 70 42 03 90</a> &nbsp;·&nbsp;
+            <a href="mailto:ma.trichery@gmail.com">ma.trichery@gmail.com</a>
+          </p>
+          <p class="cta-tagline">"Je suis le Directeur Commercial que vous n'avez pas encore,<br>mais dont vous avez déjà besoin."</p>
+        </div>
+        <a href="tel:+33670420390" class="btn-primary" style="text-decoration:none; white-space:nowrap;">Appeler maintenant →</a>
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-eyebrow">Contact</div>
+    <h2 class="contact-title">Marc-Antoine Trichery<br>Directeur Commercial Externalisé</h2>
+    <p class="contact-tagline">"Je suis le Directeur Commercial que vous n'avez pas encore, mais dont vous avez déjà besoin."</p>
+
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-item-label">Téléphone</div>
+        <div class="contact-item-val"><a href="tel:+33670420390">06 70 42 03 90</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Email</div>
+        <div class="contact-item-val"><a href="mailto:ma.trichery@gmail.com">ma.trichery@gmail.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Zones d'intervention</div>
+        <div class="contact-item-val">
+          <div class="contact-zones">
+            <span class="zone-badge">Loire-Atlantique (44)</span>
+            <span class="zone-badge">Vendée (85)</span>
+            <span class="zone-badge">Morbihan (56)</span>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-label">Réseau</div>
+        <div class="contact-item-val">
+          <span class="contact-dynabuy"><strong>Dynabuy</strong> &nbsp;·&nbsp; Cadres Externalisés</span>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size: 11px; color: rgba(245,240,232,0.25); font-weight: 300; line-height: 1.6;">
+      MAT Services — Micro-entreprise · TVA non applicable, article 293 B du CGI · Tribunal de Commerce de Nantes<br>
+      Données personnelles : conformément au RGPD, vos données ne sont utilisées qu'à des fins de contact commercial et ne sont jamais cédées à des tiers. Droit d'accès et de suppression : <a href="mailto:ma.trichery@gmail.com" style="color:rgba(198,167,94,0.4);">ma.trichery@gmail.com</a>
+    </p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <p>© 2025 MAT Services · <a href="mailto:ma.trichery@gmail.com">ma.trichery@gmail.com</a> · <a href="tel:+33670420390">06 70 42 03 90</a></p>
+</footer>
+
+<script>
+const scores = [0, 0, 0, 0, 0, 0];
+const picked = [false, false, false, false, false, false];
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function switchTabById(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  const btns = document.querySelectorAll('.tab-btn');
+  const map = { diag: 0, calc: 1, contact: 2 };
+  if (btns[map[id]]) btns[map[id]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function pick(el, q, score) {
+  el.closest('.diag-step').querySelectorAll('.diag-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  scores[q - 1] = score;
+  picked[q - 1] = true;
+  const btn = document.getElementById('btn' + q);
+  if (btn) btn.disabled = false;
+}
+
+function goTo(n) {
+  document.querySelectorAll('.diag-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  const pct = Math.round(((n - 1) / 6) * 100);
+  document.getElementById('progress').style.width = pct + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showResult() {
+  const total = scores.reduce((a, b) => a + b, 0);
+  document.getElementById('progress').style.width = '100%';
+  document.querySelectorAll('.diag-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-result').classList.add('active');
+
+  let scoreDisp, title, detail, time;
+  if (total >= 8) {
+    scoreDisp = '9 / 10'; title = 'Angle mort critique';
+    detail = "Votre potentiel commercial est clairement sous-exploité. L'absence de pilotage structuré vous coûte probablement 15 à 25% de chiffre d'affaires annuel. Un DCE peut démarrer en 15 jours — sans CDI, sans charges, sans risque.";
+    time = '+8h';
+  } else if (total >= 5) {
+    scoreDisp = '7 / 10'; title = 'Angle mort significatif';
+    detail = "Vous avancez, mais sans cap commercial clair. Un accompagnement externalisé vous permettrait de structurer et d'accélérer — sans alourdir votre masse salariale ni prendre de risque RH.";
+    time = '+5h';
+  } else if (total >= 3) {
+    scoreDisp = '5 / 10'; title = 'Quelques zones d\'ombre';
+    detail = "Votre situation commerciale est globalement saine, mais des leviers restent inexploités. Un regard externe peut débloquer des opportunités que vous ne voyez plus de l'intérieur.";
+    time = '+3h';
+  } else {
+    scoreDisp = '3 / 10'; title = 'Situation solide';
+    detail = "Vos fondations commerciales sont en place. Néanmoins, un DCE externalisé peut vous apporter une vision stratégique complémentaire et libérer du temps dirigeant sur vos vrais enjeux de croissance.";
+    time = '+2h';
+  }
+
+  document.getElementById('res-score').textContent = scoreDisp;
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-detail').textContent = detail;
+  document.getElementById('res-time').textContent = time;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetDiag() {
+  for (let i = 0; i < 6; i++) { scores[i] = 0; picked[i] = false; }
+  document.querySelectorAll('.diag-option').forEach(o => o.classList.remove('selected'));
+  ['btn1','btn2','btn3','btn4','btn5','btn6'].forEach(id => { const b = document.getElementById(id); if (b) b.disabled = true; });
+  goTo(1);
+}
+
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR') + '\u00a0€'; }
+
+function compute() {
+  const salaire = parseInt(document.getElementById('c-salaire').value);
+  const dispo = parseFloat(document.getElementById('c-dispo').value);
+  const region = parseFloat(document.getElementById('c-region').value);
+
+  const brut = Math.round(salaire * region);
+  const charges = Math.round(brut * 0.45);
+  const total = brut + charges + 2400 + 3500 + 5200;
+
+  const prixMAT = dispo <= 0.4 ? 1800 : dispo <= 0.6 ? 2700 : 4200;
+  const totalMAT = prixMAT * 12;
+  const saving = total - totalMAT;
+  const pct = Math.round((saving / total) * 100);
+
+  document.getElementById('d-brut').textContent = fmt(brut);
+  document.getElementById('d-charges').textContent = '− ' + fmt(charges);
+  document.getElementById('d-total').innerHTML = '<strong>' + fmt(total) + '</strong>';
+  document.getElementById('cv-sal').textContent = fmt(total);
+  document.getElementById('cv-mat').textContent = fmt(totalMAT);
+  document.getElementById('cv-saving').textContent = fmt(saving);
+  document.getElementById('cv-pct').textContent = pct + '%';
+
+  document.getElementById('calc-results').classList.add('visible');
+  document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── FORMULAIRE CONTACT ── */
+function sendContact() {
+  let valid = true;
+
+  const fields = [
+    { id: 'f-nom', err: 'err-nom', msg: 'Le nom est requis.' },
+    { id: 'f-societe', err: 'err-societe', msg: 'La société est requise.' },
+    { id: 'f-email', err: 'err-email', msg: 'Une adresse e-mail valide est requise.' },
+    { id: 'f-tel', err: 'err-tel', msg: 'Le téléphone est requis.' },
+  ];
+
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    const errEl = document.getElementById(f.err);
+    el.classList.remove('error');
+    errEl.textContent = '';
+    const val = el.value.trim();
+    if (!val || (f.id === 'f-email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))) {
+      el.classList.add('error');
+      errEl.textContent = f.msg;
+      valid = false;
+    }
+  });
+
+  if (!valid) return;
+
+  const nom = document.getElementById('f-nom').value.trim();
+  const societe = document.getElementById('f-societe').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const tel = document.getElementById('f-tel').value.trim();
+  const message = document.getElementById('f-message').value.trim();
+
+  const subject = encodeURIComponent('Demande de contact MAT Services — ' + societe);
+  const body = encodeURIComponent(
+    'Nom : ' + nom + '\n' +
+    'Société : ' + societe + '\n' +
+    'Email : ' + email + '\n' +
+    'Téléphone : ' + tel + '\n\n' +
+    'Message :\n' + (message || '(aucun message)') + '\n\n' +
+    '---\nEnvoyé depuis le site MAT Services'
+  );
+
+  window.location.href = 'mailto:ma.trichery@gmail.com?subject=' + subject + '&body=' + body;
+
+  document.getElementById('contact-form-wrap').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+</script>
+</body>
+</html>
